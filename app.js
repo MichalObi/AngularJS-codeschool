@@ -5,33 +5,80 @@
 		this.products = gems;
 	});
 
-	app.controller("PanelController", function(){
+    app.directive('productReview', function() {
+    	return {
+    		restrict: 'E',
+    		templateUrl:'product-review.html',
+    		controller:function(){
+				this.review = {};
+				this.addReview = function (product) {
+					product.reviews.push(this.review);
+					this.review = {}; //clear form
+					};
+				},
+				controllerAs:'reviewCtrl' 
+    	};
+    });	
 
-		this.tab = 1; //ng-init= "tab = 1"
-
-		this.selectTab = function(setTab) {
-			this.tab = setTab;
+	app.directive('productTitle', function(){
+		return {
+			restrict: 'E', // type of directive - E for Element. Can be also A for attribute
+			templateUrl: 'product-title.html'
 		};
-
-		this.isSelected = function(checkTab){
-			return this.tab === checkTab;
-		};
-
 	});
 
-	app.controller('ReviewController', function(){
-		this.review = {};
-		this.addReview = function (product) {
-			product.reviews.push(this.review);
-			this.review = {}; //clear form
+	app.directive('productPanels', function(){
+		return {
+			restrict: 'E', 
+			templateUrl: 'product-panels.html',
+			controller:function(){
+
+			this.tab = 1; //ng-init= "tab = 1"
+
+			this.selectTab = function(setTab) {
+				this.tab = setTab;
+			};
+
+			this.isSelected = function(checkTab){
+				return this.tab === checkTab;
+			};
+
+			},
+			controllerAs: 'panel'
 		};
 	});
+
+	app.directive('productGallery', function(){
+		return {
+			restrict: 'E',
+			templateUrl:'product-gallery.html',
+			controller:function(){
+		    	this.current = 0;
+		    	this.setCurrent = function(imageNumber){
+		      	this.current = imageNumber || 0;
+		    	};
+  			},
+  			controllerAs:'gallery'
+		};
+	});
+
+	app.directive('productSpecs', function() {
+    	return {
+      		restrict:"A",
+      		templateUrl: "product-specs.html"
+    };
+
+  });
 
 	var gems = [
 		{
 			name: 'Gem_1',
 			price: 10.10,
 			description: 'It good gem, lets buy it!',
+			shine: 8,
+			faces: 14,
+			rarity: 7,
+			color: '#CCC',
 			canPurchase: true,
 			soldOut:false,
 			images: [],
@@ -54,6 +101,10 @@
 			name: 'Gem_2',
 			price: 90,
 			description: 'It the best gem, lets buy it!',
+			shine: 8,
+			faces: 14,
+			rarity: 7,
+			color: '#CCC',
 			canPurchase: true,
 			soldOut:false,
 			images: [
@@ -82,6 +133,10 @@
 			name: 'Gem_3',
 			price: 100,
 			description: 'It beautifull gem, lets buy it!',
+			shine: 8,
+			faces: 14,
+			rarity: 7,
+			color: '#CCC',
 			canPurchase: true,
 			soldOut:false,
 			images: [
